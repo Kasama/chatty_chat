@@ -18,6 +18,19 @@ defmodule ChattyChatWeb.Room.ShowLive do
     <% end %>
     </ul>
     <a href="<%= Routes.list_path(@socket, :list) %>"><button> View all rooms </button></a>
+    <section class="row">
+      <article class="column">
+        <label for="local-stream">Local Video Stream</label>
+        <video id="local-stream" autoplay muted></video>
+        <label for="remote-stream">Remote Video Stream</label>
+        <video id="remote-stream" autoplay></video>
+
+        <button id="connect">Connect</button>
+        <button id="call">Call</button>
+        <button id="disconnect">Disconnect</button>
+      </article>
+    </section>
+
     """
   end
 
@@ -25,7 +38,7 @@ defmodule ChattyChatWeb.Room.ShowLive do
   def mount(%{"id" => id}, _session, socket) do
     user = create_connected_user()
     Phoenix.PubSub.subscribe(ChattyChat.PubSub, room_topic(id))
-    {:ok, _} = Presence.track(self(), room_topic(id), user.uuid, %{})
+    # {:ok, _} = Presence.track(self(), room_topic(id), user.uuid, %{})
 
     case Organizer.get_room(id) do
       nil ->
