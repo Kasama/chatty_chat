@@ -1,3 +1,3 @@
 defmodule ChattyChat.ConnectedUser do
-  defstruct uuid: ""
+  defstruct uuid: "", name: ""
 end

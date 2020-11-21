@@ -1,8 +1,12 @@
 defmodule ChattyChatWeb.VideoChannel do
   use Phoenix.Channel
 
-  def join("video:peer2peer", _message, socket) do
-    {:ok, socket}
+  def join(channel, _message, socket) do
+    channel_id = channel |> String.split(":") |> List.last
+    case ChattyChat.Organizer.get_room(channel_id) do
+      nil -> {:error, "Room does not exist"}
+      _ -> {:ok, socket}
+    end
   end
 
   def handle_in("peer-message", %{"body" => body}, socket) do

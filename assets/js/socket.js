@@ -55,7 +55,8 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
-let channel = socket.channel("video:peer2peer", {})
+let room_name = window.location.pathname.split("/").filter(p => p != "").pop()
+let channel = socket.channel("video:" + room_name, {})
 channel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
